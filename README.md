@@ -1,126 +1,115 @@
-# GitSpy
+<p align="center">
+  <h1 align="center">GitSpy</h1>
+  <p align="center">GitHub OSINT tool — extract intelligence from any GitHub user profile.</p>
+  <p align="center">
+    <a href="https://pypi.org/project/gitspy/"><img src="https://img.shields.io/pypi/v/gitspy?color=blue&label=PyPI" alt="PyPI"></a>
+    <a href="https://pypi.org/project/gitspy/"><img src="https://img.shields.io/pypi/pyversions/gitspy" alt="Python"></a>
+    <a href="https://github.com/shazeus/gitspy/blob/main/LICENSE"><img src="https://img.shields.io/github/license/shazeus/gitspy" alt="License"></a>
+    <a href="https://github.com/shazeus/gitspy/stargazers"><img src="https://img.shields.io/github/stars/shazeus/gitspy?style=social" alt="Stars"></a>
+  </p>
+</p>
 
-GitHub OSINT tool — extract intelligence from any GitHub user profile. Discover emails, estimate timezones, map tech stacks, find collaborators, and analyze activity patterns, all from your terminal.
+---
 
-## Install
+Discover emails, estimate timezones, map tech stacks, find collaborators, and analyze activity patterns — all from your terminal. GitSpy uses the public GitHub API to gather open-source intelligence on any GitHub user.
+
+- **Email Discovery** — extract real email addresses from commit history
+- **Timezone Estimation** — estimate location from commit hour patterns
+- **Activity Analysis** — peak hours, active days, contribution streaks
+- **Tech Stack Mapping** — languages, topics, original vs forked repos
+- **Collaborator Detection** — frequent interactions, orgs, following
+- **Identity Mapping** — cross-reference commit emails and author names
+
+## Installation
 
 ```bash
 pip install gitspy
 ```
 
-## Quick Start
+Requires Python 3.8+. Works on Linux, macOS, and Windows.
+
+## Usage
 
 ```bash
-# Full OSINT scan of any GitHub user
+# Full OSINT scan
 gitspy scan torvalds
 
 # Extract emails from commit history
 gitspy emails dhh
 
-# Estimate someone's timezone
+# Estimate timezone
 gitspy timezone antirez
 
-# See what languages and tools they use
-gitspy techstack shazeus
+# Activity patterns
+gitspy activity shazeus
+
+# Tech stack
+gitspy techstack gvanrossum
+
+# Collaborators & organizations
+gitspy collabs octocat
+
+# Export to JSON
+gitspy export torvalds --format json -o report.json
+
+# Export to CSV
+gitspy export torvalds --format csv -o report.csv
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `gitspy scan <user>` | Full OSINT scan — profile, emails, timezone, activity, tech stack, collaborators |
-| `gitspy emails <user>` | Extract email addresses from commit history |
-| `gitspy timezone <user>` | Estimate timezone from commit hour patterns |
-| `gitspy activity <user>` | Show activity patterns — peak hours, days, streaks, event types |
-| `gitspy techstack <user>` | Map languages, topics, and repo stats |
-| `gitspy collabs <user>` | Find frequent collaborators and organizations |
-| `gitspy export <user>` | Export all findings to JSON or CSV |
-| `gitspy rate-limit` | Check GitHub API rate limit status |
+| `gitspy scan <user>` | Full OSINT scan with all modules |
+| `gitspy emails <user>` | Extract emails from commit history |
+| `gitspy timezone <user>` | Estimate timezone from commit patterns |
+| `gitspy activity <user>` | Activity breakdown by hour, day, and event type |
+| `gitspy techstack <user>` | Languages, topics, and repo statistics |
+| `gitspy collabs <user>` | Collaborators, organizations, and following |
+| `gitspy export <user>` | Export findings to JSON or CSV |
+| `gitspy rate-limit` | Check GitHub API rate limit |
 
-## What It Finds
+## Configuration
 
-### Email Discovery
-Scans commit history across repos to find email addresses. Filters out GitHub noreply addresses and highlights real ones.
+### GitHub Token
 
-### Timezone Estimation
-Analyzes commit timestamps to estimate the user's timezone. Shows confidence level (high/medium/low) based on sample size and a full hour-by-hour distribution chart.
-
-### Activity Patterns
-- Activity by day of week (bar chart)
-- Event type breakdown (Push, PR, Issue, etc.)
-- Current activity streak
-- First and last activity dates
-
-### Tech Stack
-- Languages ranked by repo count
-- Repository topics
-- Original vs forked repo ratio
-
-### Collaborator Discovery
-- Frequent collaborators from PR and issue interactions
-- Organization memberships
-- Following list
-
-### Identity Mapping
-Cross-references commit emails and author names to map out identities and detect alt accounts or name changes.
-
-## Options
+Without a token you get **60 requests/hour**. With a token you get **5,000 requests/hour**. A full scan uses 20–50 requests depending on the user's repo count.
 
 ```bash
-# Export as JSON
-gitspy scan user --json-output
-
-# Export to file
-gitspy export user --format json --output report.json
-gitspy export user --format csv --output report.csv
-
-# Use a GitHub token for higher rate limits
-gitspy --token ghp_xxxx scan user
-
-# Or set as environment variable
-export GITHUB_TOKEN=ghp_xxxx
-```
-
-## GitHub API Rate Limits
-
-Without a token: **60 requests/hour**. With a token: **5,000 requests/hour**.
-
-A full scan uses ~20-50 requests depending on the user's repo count. Set `GITHUB_TOKEN` for best results.
-
-```bash
+# Set as environment variable (recommended)
 export GITHUB_TOKEN=ghp_your_token_here
+
+# Or pass directly
+gitspy --token ghp_xxxx scan torvalds
 ```
 
-Generate one at [github.com/settings/tokens](https://github.com/settings/tokens) — no special scopes needed for public data.
+Generate a token at [github.com/settings/tokens](https://github.com/settings/tokens) — no special scopes needed for public data.
 
-## Examples
+### JSON Output
+
+Every command supports `--json-output` for piping to other tools:
 
 ```bash
-# Quick email lookup
-gitspy emails octocat
-
-# Check when someone is usually online
-gitspy timezone gvanrossum
-
-# See what a user is working with
-gitspy techstack shazeus
-
-# Full scan with JSON export
-gitspy scan torvalds --json-output | jq '.emails'
-
-# Export everything to a file
-gitspy export antirez --format json -o antirez-report.json
+gitspy scan user --json-output | jq '.emails'
+gitspy scan user --json-output | jq '.timezone.estimated_timezone'
 ```
+
+## How It Works
+
+GitSpy queries the public GitHub REST API to collect:
+
+1. **User profile** — public info, bio, location, social links
+2. **Repositories** — languages, topics, fork status, activity dates
+3. **Commit history** — author emails, timestamps, committer info
+4. **Public events** — pushes, PRs, issues, comments
+5. **Social graph** — followers, following, organizations
+
+All data is publicly available through GitHub's API. No authentication bypass or scraping is involved.
 
 ## Disclaimer
 
-This tool only accesses **publicly available data** through the GitHub API. It does not bypass any access controls or scrape private information. Use responsibly and in accordance with GitHub's Terms of Service.
-
-## Requirements
-
-- Python 3.8+
-- Works on Linux, macOS, and Windows
+This tool only accesses **publicly available data** through the official GitHub API. It does not bypass access controls, scrape private information, or violate GitHub's Terms of Service. Use responsibly.
 
 ## License
 
-MIT
+[MIT](LICENSE)

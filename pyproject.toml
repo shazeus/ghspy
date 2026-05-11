@@ -3,7 +3,7 @@ requires = ["setuptools>=68.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "gitspy"
+name = "ghspy"
 version = "0.1.0"
 description = "GitHub OSINT tool — extract intelligence from any GitHub user profile"
 readme = "README.md"
@@ -35,12 +35,12 @@ dependencies = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/shazeus/gitspy"
-Repository = "https://github.com/shazeus/gitspy"
-Issues = "https://github.com/shazeus/gitspy/issues"
+Homepage = "https://github.com/shazeus/ghspy"
+Repository = "https://github.com/shazeus/ghspy"
+Issues = "https://github.com/shazeus/ghspy/issues"
 
 [project.scripts]
-gitspy = "gitspy.cli:cli"
+ghspy = "ghspy.cli:cli"
 
 [tool.setuptools.packages.find]
-include = ["gitspy*"]
+include = ["ghspy*"]

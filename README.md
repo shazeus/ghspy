@@ -1,17 +1,17 @@
 <p align="center">
-  <h1 align="center">GitSpy</h1>
+  <h1 align="center">GhSpy</h1>
   <p align="center">GitHub OSINT tool — extract intelligence from any GitHub user profile.</p>
   <p align="center">
-    <a href="https://pypi.org/project/gitspy/"><img src="https://img.shields.io/pypi/v/gitspy?color=blue&label=PyPI" alt="PyPI"></a>
-    <a href="https://pypi.org/project/gitspy/"><img src="https://img.shields.io/pypi/pyversions/gitspy" alt="Python"></a>
-    <a href="https://github.com/shazeus/gitspy/blob/main/LICENSE"><img src="https://img.shields.io/github/license/shazeus/gitspy" alt="License"></a>
-    <a href="https://github.com/shazeus/gitspy/stargazers"><img src="https://img.shields.io/github/stars/shazeus/gitspy?style=social" alt="Stars"></a>
+    <a href="https://pypi.org/project/ghspy/"><img src="https://img.shields.io/pypi/v/ghspy?color=blue&label=PyPI" alt="PyPI"></a>
+    <a href="https://pypi.org/project/ghspy/"><img src="https://img.shields.io/pypi/pyversions/ghspy" alt="Python"></a>
+    <a href="https://github.com/shazeus/ghspy/blob/main/LICENSE"><img src="https://img.shields.io/github/license/shazeus/ghspy" alt="License"></a>
+    <a href="https://github.com/shazeus/ghspy/stargazers"><img src="https://img.shields.io/github/stars/shazeus/ghspy?style=social" alt="Stars"></a>
   </p>
 </p>
 
 ---
 
-Discover emails, estimate timezones, map tech stacks, find collaborators, and analyze activity patterns — all from your terminal. GitSpy uses the public GitHub API to gather open-source intelligence on any GitHub user.
+Discover emails, estimate timezones, map tech stacks, find collaborators, and analyze activity patterns — all from your terminal. GhSpy uses the public GitHub API to gather open-source intelligence on any GitHub user.
 
 - **Email Discovery** — extract real email addresses from commit history
 - **Timezone Estimation** — estimate location from commit hour patterns
@@ -23,7 +23,7 @@ Discover emails, estimate timezones, map tech stacks, find collaborators, and an
 ## Installation
 
 ```bash
-pip install gitspy
+pip install ghspy
 ```
 
 Requires Python 3.8+. Works on Linux, macOS, and Windows.
@@ -32,42 +32,42 @@ Requires Python 3.8+. Works on Linux, macOS, and Windows.
 
 ```bash
 # Full OSINT scan
-gitspy scan torvalds
+ghspy scan torvalds
 
 # Extract emails from commit history
-gitspy emails dhh
+ghspy emails dhh
 
 # Estimate timezone
-gitspy timezone antirez
+ghspy timezone antirez
 
 # Activity patterns
-gitspy activity shazeus
+ghspy activity shazeus
 
 # Tech stack
-gitspy techstack gvanrossum
+ghspy techstack gvanrossum
 
 # Collaborators & organizations
-gitspy collabs octocat
+ghspy collabs octocat
 
 # Export to JSON
-gitspy export torvalds --format json -o report.json
+ghspy export torvalds --format json -o report.json
 
 # Export to CSV
-gitspy export torvalds --format csv -o report.csv
+ghspy export torvalds --format csv -o report.csv
 ```
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `gitspy scan <user>` | Full OSINT scan with all modules |
-| `gitspy emails <user>` | Extract emails from commit history |
-| `gitspy timezone <user>` | Estimate timezone from commit patterns |
-| `gitspy activity <user>` | Activity breakdown by hour, day, and event type |
-| `gitspy techstack <user>` | Languages, topics, and repo statistics |
-| `gitspy collabs <user>` | Collaborators, organizations, and following |
-| `gitspy export <user>` | Export findings to JSON or CSV |
-| `gitspy rate-limit` | Check GitHub API rate limit |
+| `ghspy scan <user>` | Full OSINT scan with all modules |
+| `ghspy emails <user>` | Extract emails from commit history |
+| `ghspy timezone <user>` | Estimate timezone from commit patterns |
+| `ghspy activity <user>` | Activity breakdown by hour, day, and event type |
+| `ghspy techstack <user>` | Languages, topics, and repo statistics |
+| `ghspy collabs <user>` | Collaborators, organizations, and following |
+| `ghspy export <user>` | Export findings to JSON or CSV |
+| `ghspy rate-limit` | Check GitHub API rate limit |
 
 ## Configuration
 
@@ -80,7 +80,7 @@ Without a token you get **60 requests/hour**. With a token you get **5,000 reque
 export GITHUB_TOKEN=ghp_your_token_here
 
 # Or pass directly
-gitspy --token ghp_xxxx scan torvalds
+ghspy --token ghp_xxxx scan torvalds
 ```
 
 Generate a token at [github.com/settings/tokens](https://github.com/settings/tokens) — no special scopes needed for public data.
@@ -90,13 +90,13 @@ Generate a token at [github.com/settings/tokens](https://github.com/settings/tok
 Every command supports `--json-output` for piping to other tools:
 
 ```bash
-gitspy scan user --json-output | jq '.emails'
-gitspy scan user --json-output | jq '.timezone.estimated_timezone'
+ghspy scan user --json-output | jq '.emails'
+ghspy scan user --json-output | jq '.timezone.estimated_timezone'
 ```
 
 ## How It Works
 
-GitSpy queries the public GitHub REST API to collect:
+GhSpy queries the public GitHub REST API to collect:
 
 1. **User profile** — public info, bio, location, social links
 2. **Repositories** — languages, topics, fork status, activity dates

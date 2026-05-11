@@ -1,4 +1,4 @@
-"""GitHub API client for GitSpy."""
+"""GitHub API client for GhSpy."""
 
 import os
 import sys
@@ -14,7 +14,7 @@ class GitHubClient:
         self.session = requests.Session()
         self.session.headers.update({
             "Accept": "application/vnd.github.v3+json",
-            "User-Agent": "GitSpy",
+            "User-Agent": "GhSpy",
         })
         if self.token:
             self.session.headers["Authorization"] = f"token {self.token}"

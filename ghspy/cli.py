@@ -5,16 +5,16 @@ import json
 import click
 from rich.console import Console
 
-from gitspy import __version__
-from gitspy.github_api import GitHubClient
-from gitspy.analyzer import UserAnalyzer
-from gitspy import display
+from ghspy import __version__
+from ghspy.github_api import GitHubClient
+from ghspy.analyzer import UserAnalyzer
+from ghspy import display
 
 console = Console()
 
 
 @click.group()
-@click.version_option(version=__version__, prog_name="gitspy")
+@click.version_option(version=__version__, prog_name="ghspy")
 @click.option("--token", envvar="GITHUB_TOKEN", help="GitHub personal access token")
 @click.pass_context
 def cli(ctx, token):
